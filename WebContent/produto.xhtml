@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:h="http://java.sun.com/jsf/html">
+	  
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Sistema de Notas Fiscais</title>
+	</h:head>
+	
+	<h:body>
+		<h:form>
+			<h:outputText value="Novo Produto" rendered="#{empty produtoBean.produto.id}"/>
+			<h:outputText value="Editar Produto" rendered="#{not empty produtoBean.produto.id}"/>
+			
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Nome:" for="nome"/>
+				<h:inputText id="nome" value="#{produtoBean.produto.nome}"/>
+				
+				<h:outputLabel value="Descrição:" for="descricao"/>
+				<h:inputTextarea id="descricao" value="#{produtoBean.produto.descricao}"/>
+				
+				<h:outputLabel value="Preço:" for="preco"/>
+				<h:inputText id="preco" value="#{produtoBean.produto.preco}"/>
+				
+				<h:commandButton value="Gravar" action="#{produtoBean.grava}"/>
+				<h:commandButton value="Cancelar" rendered="#{not empty produtoBean.produto.id}" action="#{produtoBean.limpaFormulario}"/>
+			</h:panelGrid>
+		</h:form>
+		
+		<h:form>
+			<h:dataTable value="#{produtoBean.produtos}" var="produto" border="1">
+				<h:column>
+					<f:facet name="header">Nome</f:facet>
+					#{produto.nome}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Descrição</f:facet>
+					#{produto.descricao}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Preço</f:facet>
+					<f:facet name="footer">#{produtoBean.somatorio}</f:facet>
+					#{produto.preco}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Remover</f:facet>
+					<h:commandLink action="#{produtoBean.remove(produto)}" value="Remover"/>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Alterar</f:facet>
+					<h:commandLink value="Alterar" >
+						<f:setPropertyActionListener target="#{produtoBean.produto}" value="#{produto}"/>
+					</h:commandLink>
+				</h:column>	
+					
+			</h:dataTable>
+		</h:form>
+	</h:body>
+</html>
