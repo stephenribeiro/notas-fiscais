@@ -28,7 +28,9 @@ public class ProdutoBean {
 		double soma = 0.0;
 		if(this.produtos != null){
 			for (Produto prod : this.produtos) {
-				soma += prod.getPreco();
+				if(prod.getPreco()!= null){
+					soma += prod.getPreco();
+				}
 			}
 		}
 		return soma;

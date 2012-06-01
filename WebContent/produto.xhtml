@@ -10,7 +10,7 @@
 	</h:head>
 	
 	<h:body>
-		<h:form>
+		<h:form id="cadastroForm">
 			<h:outputText value="Novo Produto" rendered="#{empty produtoBean.produto.id}"/>
 			<h:outputText value="Editar Produto" rendered="#{not empty produtoBean.produto.id}"/>
 			
@@ -24,12 +24,17 @@
 				<h:outputLabel value="Preço:" for="preco"/>
 				<h:inputText id="preco" value="#{produtoBean.produto.preco}"/>
 				
-				<h:commandButton value="Gravar" action="#{produtoBean.grava}"/>
-				<h:commandButton value="Cancelar" rendered="#{not empty produtoBean.produto.id}" action="#{produtoBean.limpaFormulario}"/>
+				<h:commandButton value="Gravar" action="#{produtoBean.grava}">
+					<f:ajax execute="@form" render="@form :tabela"/>
+				</h:commandButton>
+				<h:commandButton value="Cancelar" rendered="#{not empty produtoBean.produto.id}" 
+				action="#{produtoBean.limpaFormulario}">
+					<f:ajax render="@form"/>
+				</h:commandButton>
 			</h:panelGrid>
 		</h:form>
 		
-		<h:form>
+		<h:form id="tabela">
 			<h:dataTable value="#{produtoBean.produtos}" var="produto" border="1">
 				<h:column>
 					<f:facet name="header">Nome</f:facet>
@@ -46,12 +51,15 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header">Remover</f:facet>
-					<h:commandLink action="#{produtoBean.remove(produto)}" value="Remover"/>
+					<h:commandLink action="#{produtoBean.remove(produto)}" value="Remover">
+						<f:ajax render="@form"/>
+					</h:commandLink>
 				</h:column>
 				<h:column>
 					<f:facet name="header">Alterar</f:facet>
 					<h:commandLink value="Alterar" >
 						<f:setPropertyActionListener target="#{produtoBean.produto}" value="#{produto}"/>
+						<f:ajax render=":cadastroForm"/>
 					</h:commandLink>
 				</h:column>	
 					
