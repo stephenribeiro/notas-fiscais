@@ -1,5 +1,6 @@
 package br.com.caelum.notasfiscais.mb;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -9,10 +10,14 @@ import br.com.caelum.notasfiscais.dao.DAO;
 import br.com.caelum.notasfiscais.modelo.Produto;
 
 @ManagedBean @ViewScoped
-public class ProdutoBean {
+public class ProdutoBean implements Serializable{
 
 	private Produto produto = new Produto();
 	private List<Produto> produtos;
+	
+	public ProdutoBean() {
+		System.out.println("Instanciou ProdutoBean!");
+	}
 
 	public void limpaFormulario(){
 		this.produto = new Produto();

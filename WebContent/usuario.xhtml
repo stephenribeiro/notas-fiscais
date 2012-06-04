@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:h="http://java.sun.com/jsf/html">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Sistema de Notas Fiscais</title>
+		<h:outputStylesheet library="css" name="style.css"/>
+	</h:head>
+	<h:body>
+		<div id="cabecalho">
+			<h:graphicImage library="imagens" name="logo-uber.png" id="logoCompany"/>
+			<h:form id="logoutForm">
+				<div id="usuarioLogado">
+					<h:outputLabel value="Logado como: #{loginBean.usuario.login}" for="logout"/> 
+					<h:commandLink id="logout" value="logout" action="#{loginBean.efetuaLogout}"/>
+				</div>
+			</h:form>
+		</div>
+		<div id="conteudo">
+			<h2></h2>
+			<h:form id="cadastroForm">
+				<h2>
+					<h:outputText value="Novo Usuário" rendered="#{empty usuarioBean.usuario.id}"/>
+					<h:outputText value="Editar Usuário" rendered="#{not empty usuarioBean.usuario.id}"/>
+				</h2>
+				<fieldset>
+					<legend>Dados do Usuário</legend>
+					<h:outputLabel value="Login:" for="login"/>
+					<h:inputText id="login" value="#{usuarioBean.usuario.login}"/>
+					<h:outputLabel value="Senha:" for="senha"/>
+					<h:inputSecret id="senha" value="#{usuarioBean.usuario.senha}"/>
+					<h:commandButton value="Gravar" action="#{usuarioBean.grava}">
+						<f:ajax render="@form :tabela" execute="@form"/>
+					</h:commandButton>
+					<h:commandButton id="cancelar" value="Cancelar" rendered="#{not empty usuarioBean.usuario.id}" 
+							action="#{usuarioBean.limpaFormulario}">
+							<f:ajax render="@form"/>
+					</h:commandButton>
+				</fieldset>
+			</h:form>
+			
+			<h2>Listagem de Usuários</h2>
+			<h:form id="tabela">
+				<h:dataTable value="#{usuarioBean.usuarios}" var="usuario" styleClass="dados" rowClasses="impar,par">
+					<h:column>
+						<f:facet name="header">Login</f:facet>
+						#{usuario.login}
+					</h:column>
+					<h:column>
+						<f:facet name="header">Remover</f:facet>
+						<h:commandLink action="#{usuarioBean.remove(usuario)}" value="Remover">
+							<f:ajax render="@form"/>
+						</h:commandLink>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Alterar</f:facet>
+						<h:commandLink value="Alterar" >
+							<f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuario}"/>
+							<f:ajax render=":cadastroForm"/>
+						</h:commandLink>
+					</h:column>	
+				</h:dataTable>
+			</h:form>
+		</div>
+		<div id="rodape">Copyright 2012. Todos os Direitos reservados a Stephen.</div>
+	</h:body>
+</html>
