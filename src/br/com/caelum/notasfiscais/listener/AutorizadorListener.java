@@ -15,7 +15,7 @@ public class AutorizadorListener implements PhaseListener {
 		FacesContext context = event.getFacesContext();
 		
 		if("/login.xhtml".equals(context.getViewRoot().getViewId())){
-			return;
+			return; //não verificar o login se a requisição é da pagina de login
 		}
 		
 		LoginBean loginBean = context.getApplication()

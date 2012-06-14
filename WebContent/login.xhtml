@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:h="http://java.sun.com/jsf/html"
-		xmlns:f="http://java.sun.com/jsf/core">
-	<h:head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>Sistema de Notas Fiscais - UberDist</title>
-		<h:outputStylesheet library="css" name="style.css"/>
-	</h:head>
-	<h:body>
-		<div id="cabecalho">
-			<h:graphicImage library="imagens" name="logo-uber.png" id="logoCompany"/>
-		</div>
-		<div id="conteudo">
-			<h2>Login no Sistema</h2>
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.prime.com.tr/ui">
+	
+	<ui:composition template="/_template.xhtml">
+		<ui:define name="titulo">Login</ui:define>
+		<ui:define name="corpo">
 			<h:form id="formLogin">
-				<fieldset>
-					<legend>Dados do Usuário</legend>	
-					
+				<h2>Login no Sistema</h2>
+				<p:fieldset legend="Dados do Usuário">
 					<h:outputLabel value="Login:" for="login"/>
-					<h:inputText id="login" value="#{loginBean.usuario.login}"/>
+					<p:inputText id="login" value="#{loginBean.usuario.login}" />
 					
 					<h:outputLabel value="Senha:" for="senha"/>
-					<h:inputSecret id="senha" value="#{loginBean.usuario.senha}"/>
+					<p:keyboard id="senha" password="true" value="#{loginBean.usuario.senha}"/>
+<!-- 					<h:inputSecret id="senha" value="#{loginBean.usuario.senha}"/> -->
 					
 					<h:commandButton value="Efetuar Login" action="#{loginBean.efetuaLogin}"/>
 								
-				</fieldset>
+				</p:fieldset>
 			</h:form>
-		</div>
-		<div id="rodape">Copyright 2012. Todos os Direitos reservados a Stephen.</div>
-	</h:body>
+		</ui:define>	
+	</ui:composition>
 </html>

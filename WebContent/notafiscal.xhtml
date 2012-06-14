@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.prime.com.tr/ui">
+
+	<ui:composition template="_template.xhtml">
+		<ui:define name="titulo">Nota Fiscal</ui:define>
+		<ui:define name="corpo">
+			<h:form id="formularioNF">
+				<h2>Cadastro Nota Fiscal</h2>
+				<p:tabView>
+					<p:tab title="Dados da Nota">
+						<fieldset>
+							<legend>Dados da Nota</legend>
+							
+							<h:outputLabel value="CNPJ Cliente:" for="cnpj"/>
+							<p:inputMask value="#{notaFiscalBean.notaFiscal.cnpj}" mask="99.999.999/9999-99"/>
+		<!-- 					<h:inputText id="cnpj" value="#{notaFiscalBean.notaFiscal.cnpj}"/> -->
+							
+							<h:outputLabel value="Data:" for="data"/>
+							<p:calendar pattern="dd/MM/yyyy" value="#{notaFiscalBean.notaFiscal.data.time}"/>
+		<!-- 					<h:inputText id="data" value="#{notaFiscalBean.notaFiscal.data.time}"> -->
+		<!-- 						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo"/> -->
+		<!-- 					</h:inputText>	 -->
+						</fieldset>	
+					</p:tab>
+					<p:tab title="Itens da Nota">
+						<fieldset>
+							<legend>Dados do Item</legend>
+							
+							<h:outputLabel value="Produto:" for="produto"/>
+							<h:selectOneMenu id="produto" value="#{notaFiscalBean.idProduto}">
+								<f:selectItems value="#{produtoBean.produtos}" var="prod" 
+									itemValue="#{prod.id}" itemLabel="#{prod.nome}"/>
+							</h:selectOneMenu>
+							
+							<h:outputLabel value="Quantidade:" for="quantidade"/>
+							<h:inputText id="quantidade" value="#{notaFiscalBean.item.quantidade}"/>
+							
+							<h:commandButton value="Guardar Item" action="#{notaFiscalBean.guardaItem}">
+								<f:ajax render="@form" execute="@form"/>
+							</h:commandButton>
+						</fieldset>	
+						<h2>Itens da Nota Fical</h2>
+						<h:panelGroup id="tabela">
+							<h:dataTable value="#{notaFiscalBean.notaFiscal.itens}" var="item" 
+								styleClass="dados" rowClasses="impar,par">				
+							
+								<h:column>
+									<f:facet name="header">Produto</f:facet>
+									#{item.produto.nome}
+								</h:column>
+								<h:column>
+									<f:facet name="header">Valor Unitário</f:facet>
+									<h:outputText value="#{item.valorUnitario}">
+										<f:convertNumber type="currency" currencySymbol="R$ " locale="pt_BR"/>
+									</h:outputText>
+								</h:column>
+								<h:column>
+									<f:facet name="header">Quantidade</f:facet>
+									#{item.quantidade}
+								</h:column>
+								<h:column>
+									<f:facet name="header">Total</f:facet>
+									<h:outputText value="#{item.total}">
+										<f:convertNumber type="currency" currencySymbol="R$ " locale="pt_BR"/>
+									</h:outputText>
+								</h:column>
+							</h:dataTable>	
+						</h:panelGroup>
+					</p:tab>
+				</p:tabView>
+				
+				<h:commandButton value="Gravar" action="#{notaFiscalBean.gravar}">
+					<f:ajax render="@form" execute="@form"/>
+				</h:commandButton>
+			</h:form>		
+		</ui:define>
+	</ui:composition>
+</html>

@@ -1,12 +1,14 @@
 package br.com.caelum.notasfiscais.modelo;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Item {
+public class Item implements Serializable{
 
 	@Id @GeneratedValue
 	private Long id;

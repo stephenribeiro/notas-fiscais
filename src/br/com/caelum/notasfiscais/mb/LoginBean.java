@@ -16,6 +16,7 @@ public class LoginBean {
 		return "login?faces-redirect=true";
 	}
 	
+	//action com outcome
 	public String efetuaLogin(){
 		UsuarioDAO dao = new UsuarioDAO();
 		boolean loginValido = dao.existe(this.usuario);
